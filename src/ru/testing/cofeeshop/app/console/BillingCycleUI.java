@@ -25,8 +25,16 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Billing cycle ui.
+ *
+ * @author Alexander Vasiliev <alexandrvasilievby@gmail.com>
+ */
 public class BillingCycleUI {
 
+    /**
+     * Initialize.
+     */
     public static void initialize() {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
             userGreeting(br);
@@ -209,6 +217,12 @@ public class BillingCycleUI {
         throw new OperationException(OperationResultStatus.FAILURE_INTERNAL_UNKNOWN, "Can't choose product Available Category!");
     }
 
+    /**
+     * Is numeric boolean.
+     *
+     * @param str the str
+     * @return the boolean
+     */
     public static boolean isNumeric(String str) {
         return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
     }

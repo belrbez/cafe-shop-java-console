@@ -5,8 +5,19 @@ import ru.testing.cofeeshop.productcatalog.item.*;
 import ru.testing.cofeeshop.utils.reliability.OperationException;
 import ru.testing.cofeeshop.utils.reliability.OperationResultStatus;
 
+/**
+ * The type Factory producer.
+ *
+ * @author Alexander Vasiliev <alexandrvasilievby@gmail.com>
+ */
 public class FactoryProducer {
 
+    /**
+     * Gets factory.
+     *
+     * @param choice the choice
+     * @return the factory
+     */
     public static GenericFactory getFactory(ApplicationInstanceType choice) {
         switch (choice) {
             case BASKET:

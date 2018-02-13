@@ -16,6 +16,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The type Product service.
+ *
+ * @author Alexander Vasiliev <alexandrvasilievby@gmail.com>
+ */
 public class ProductServiceImpl extends GenericService implements ProductService {
 
     @Override

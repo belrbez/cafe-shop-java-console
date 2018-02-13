@@ -15,6 +15,11 @@ import ru.testing.cofeeshop.domain.service.impl.UserDetailsServiceImpl;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type Application instance.
+ *
+ * @author Alexander Vasiliev <alexandrvasilievby@gmail.com>
+ */
 public abstract class ApplicationInstance {
 
     private final static Map<ApplicationInstanceType, GenericController> genericControllerMap;
@@ -38,18 +43,38 @@ public abstract class ApplicationInstance {
         userDetailsService = new UserDetailsServiceImpl();
     }
 
+    /**
+     * Gets generic controller map.
+     *
+     * @return the generic controller map
+     */
     public static Map<ApplicationInstanceType, GenericController> getGenericControllerMap() {
         return genericControllerMap;
     }
 
+    /**
+     * Gets generic service map.
+     *
+     * @return the generic service map
+     */
     public static Map<ApplicationInstanceType, GenericService> getGenericServiceMap() {
         return genericServiceMap;
     }
 
+    /**
+     * Gets user details service.
+     *
+     * @return the user details service
+     */
     public static UserDetailsService getUserDetailsService() {
         return userDetailsService;
     }
 
+    /**
+     * Gets user controller.
+     *
+     * @return the user controller
+     */
     public static UserController getUserController() {
         return userController;
     }

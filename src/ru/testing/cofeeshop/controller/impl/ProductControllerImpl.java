@@ -8,6 +8,11 @@ import ru.testing.cofeeshop.domain.service.ProductService;
 import ru.testing.cofeeshop.domain.value.OptionType;
 import ru.testing.cofeeshop.productcatalog.resource.AvailableProduct;
 
+/**
+ * The type Product controller.
+ *
+ * @author Alexander Vasiliev <alexandrvasilievby@gmail.com>
+ */
 public class ProductControllerImpl extends GenericController implements ProductController {
 
     @Override

@@ -16,10 +16,18 @@ import java.util.List;
 
 import static ru.testing.cofeeshop.productcatalog.item.CategoryFactory.CategoryBuildStrategy.ALL_CHILDREN;
 
+/**
+ * The type Category factory.
+ *
+ * @author Alexander Vasiliev <alexandrvasilievby@gmail.com>
+ */
 public class CategoryFactory extends GenericFactory<Category, List<ProductCategory>> {
 
     private static Long numberOfCategories = 0L;
 
+    /**
+     * The Category build strategy.
+     */
     CategoryBuildStrategy categoryBuildStrategy = ALL_CHILDREN;
 
     @Override
@@ -73,15 +81,30 @@ public class CategoryFactory extends GenericFactory<Category, List<ProductCatego
                 .get(type);
     }
 
+    /**
+     * Category build strategy category factory.
+     *
+     * @param categoryBuildStrategy the category build strategy
+     * @return the category factory
+     */
     public CategoryFactory categoryBuildStrategy(CategoryBuildStrategy categoryBuildStrategy) {
         this.categoryBuildStrategy = categoryBuildStrategy;
         return this;
     }
 
+    /**
+     * The enum Category build strategy.
+     */
     public enum CategoryBuildStrategy {
 
+        /**
+         * Chain category build strategy.
+         */
         CHAIN,
 
+        /**
+         * All children category build strategy.
+         */
         ALL_CHILDREN;
     }
 }

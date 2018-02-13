@@ -16,6 +16,11 @@ import ru.testing.cofeeshop.utils.reliability.OperationResultStatus;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
+/**
+ * The type Product factory.
+ *
+ * @author Alexander Vasiliev <alexandrvasilievby@gmail.com>
+ */
 public class ProductFactory extends GenericFactory<Product, AvailableProduct> {
 
     private static Long numberOfProducts = 0L;

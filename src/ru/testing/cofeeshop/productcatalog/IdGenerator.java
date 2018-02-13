@@ -6,8 +6,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * The type Id generator.
+ *
+ * @author Alexander Vasiliev <alexandrvasilievby@gmail.com>
+ */
 public class IdGenerator {
 
+    /**
+     * Generate and set id.
+     *
+     * @param object the object
+     * @param lastId the last id
+     */
     public static void generateAndSetId(Object object, Long lastId) {
         try {
             List<Field> fields = getAllFields(new LinkedList<Field>(), object.getClass());
@@ -27,6 +38,13 @@ public class IdGenerator {
         }
     }
 
+    /**
+     * Gets all fields.
+     *
+     * @param fields the fields
+     * @param type   the type
+     * @return the all fields
+     */
     public static List<Field> getAllFields(List<Field> fields, Class<?> type) {
         fields.addAll(Arrays.asList(type.getDeclaredFields()));
 

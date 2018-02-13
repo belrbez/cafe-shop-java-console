@@ -13,6 +13,11 @@ import ru.testing.cofeeshop.domain.service.UserDetailsService;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The type User details service.
+ *
+ * @author Alexander Vasiliev <alexandrvasilievby@gmail.com>
+ */
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override

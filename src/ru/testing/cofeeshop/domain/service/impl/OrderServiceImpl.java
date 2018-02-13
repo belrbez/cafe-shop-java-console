@@ -6,6 +6,11 @@ import ru.testing.cofeeshop.domain.entity.Order;
 import ru.testing.cofeeshop.domain.service.OrderService;
 import ru.testing.cofeeshop.domain.value.PaymentType;
 
+/**
+ * The type Order service.
+ *
+ * @author Alexander Vasiliev <alexandrvasilievby@gmail.com>
+ */
 public class OrderServiceImpl extends GenericService implements OrderService {
 
     @Override

@@ -9,6 +9,11 @@ import ru.testing.cofeeshop.utils.reliability.OperationResultStatus;
 
 import java.math.BigDecimal;
 
+/**
+ * The type Price factory.
+ *
+ * @author Alexander Vasiliev <alexandrvasilievby@gmail.com>
+ */
 public class PriceFactory extends GenericFactory<Price, ProductCategory> {
 
     private static Long numberOfPrices = 0L;

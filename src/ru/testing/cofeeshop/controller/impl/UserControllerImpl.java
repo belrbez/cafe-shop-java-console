@@ -5,6 +5,11 @@ import ru.testing.cofeeshop.controller.UserController;
 import ru.testing.cofeeshop.controller.model.BasketDTO;
 import ru.testing.cofeeshop.controller.model.UserDTO;
 
+/**
+ * The type User controller.
+ *
+ * @author Alexander Vasiliev <alexandrvasilievby@gmail.com>
+ */
 public class UserControllerImpl extends GenericController implements UserController {
 
     @Override

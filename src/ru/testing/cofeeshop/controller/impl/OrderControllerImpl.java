@@ -7,6 +7,11 @@ import ru.testing.cofeeshop.domain.entity.Order;
 import ru.testing.cofeeshop.domain.service.OrderService;
 import ru.testing.cofeeshop.domain.value.PaymentType;
 
+/**
+ * The type Order controller.
+ *
+ * @author Alexander Vasiliev <alexandrvasilievby@gmail.com>
+ */
 public class OrderControllerImpl extends GenericController implements OrderController {
 
     @Override

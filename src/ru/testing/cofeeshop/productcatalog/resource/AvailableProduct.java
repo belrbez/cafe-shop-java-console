@@ -5,6 +5,8 @@ package ru.testing.cofeeshop.productcatalog.resource;
  * The enum Available product.
  * <p>
  * Sub-products should contain base product name in field definition.
+ *
+ * @author Alexander Vasiliev <alexandrvasilievby@gmail.com>
  */
 public enum AvailableProduct {
 
@@ -84,6 +86,12 @@ public enum AvailableProduct {
         return null;
     }
 
+    /**
+     * From contains value available product.
+     *
+     * @param text the text
+     * @return the available product
+     */
     public static AvailableProduct fromContainsValue(String text) {
         for (AvailableProduct b : AvailableProduct.values()) {
             if (String.valueOf(text).contains(b.value)) {
@@ -93,6 +101,11 @@ public enum AvailableProduct {
         return null;
     }
 
+    /**
+     * Gets value.
+     *
+     * @return the value
+     */
     public String getValue() {
         return value;
     }

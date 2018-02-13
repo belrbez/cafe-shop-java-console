@@ -11,8 +11,20 @@ import ru.testing.cofeeshop.productcatalog.resource.AvailableProduct;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Product mapper.
+ *
+ * @author Alexander Vasiliev <alexandrvasilievby@gmail.com>
+ */
 public class ProductMapper {
 
+    /**
+     * Map product into dto product dto.
+     *
+     * @param product        the product
+     * @param choosedProduct the choosed product
+     * @return the product dto
+     */
     public static ProductDTO mapProductIntoDTO(Product product, AvailableProduct choosedProduct) {
         ProductDTO productDTO = mapProductIntoDTO(product);
         List<ProductDTO> addons = new ArrayList<>();
@@ -26,6 +38,12 @@ public class ProductMapper {
         return productDTO;
     }
 
+    /**
+     * Map product into dto product dto.
+     *
+     * @param product the product
+     * @return the product dto
+     */
     public static ProductDTO mapProductIntoDTO(Product product) {
         ProductDTO productDTO = new ProductDTO();
         productDTO.setId(product.getId());
@@ -37,6 +55,12 @@ public class ProductMapper {
     }
 
 
+    /**
+     * Map category into dto category dto.
+     *
+     * @param category the category
+     * @return the category dto
+     */
     public static CategoryDTO mapCategoryIntoDto(Category category) {
         if (category == null) {
             return null;
@@ -48,6 +72,12 @@ public class ProductMapper {
         return categoryDTO;
     }
 
+    /**
+     * Map category into dto list list.
+     *
+     * @param categoryList the category list
+     * @return the list
+     */
     public static List<CategoryDTO> mapCategoryIntoDtoList(List<Category> categoryList) {
         if (categoryList == null) {
             return null;
@@ -59,6 +89,12 @@ public class ProductMapper {
         return categoryDTOList;
     }
 
+    /**
+     * Map option into dto list list.
+     *
+     * @param optionList the option list
+     * @return the list
+     */
     public static List<OptionDTO> mapOptionIntoDtoList(List<Option> optionList) {
         if (optionList == null) {
             return null;
@@ -70,6 +106,12 @@ public class ProductMapper {
         return optionDTOList;
     }
 
+    /**
+     * Map option into dto option dto.
+     *
+     * @param option the option
+     * @return the option dto
+     */
     public static OptionDTO mapOptionIntoDto(Option option) {
         if (option == null) {
             return null;

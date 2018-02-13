@@ -10,6 +10,11 @@ import ru.testing.cofeeshop.productcatalog.IdGenerator;
 import ru.testing.cofeeshop.utils.reliability.OperationException;
 import ru.testing.cofeeshop.utils.reliability.OperationResultStatus;
 
+/**
+ * The type Option factory.
+ *
+ * @author Alexander Vasiliev <alexandrvasilievby@gmail.com>
+ */
 public class OptionFactory extends GenericFactory<Option, OptionType> {
 
     private static Long numberOfCategory = 0L;

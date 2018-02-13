@@ -11,6 +11,11 @@ import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The type Order factory.
+ *
+ * @author Alexander Vasiliev <alexandrvasilievby@gmail.com>
+ */
 public class OrderFactory extends GenericFactory<Order, PaymentType> {
 
     private static Long numberOfOrders = 0L;
