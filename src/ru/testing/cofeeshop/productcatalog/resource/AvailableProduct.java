@@ -84,6 +84,15 @@ public enum AvailableProduct {
         return null;
     }
 
+    public static AvailableProduct fromContainsValue(String text) {
+        for (AvailableProduct b : AvailableProduct.values()) {
+            if (String.valueOf(text).contains(b.value)) {
+                return b;
+            }
+        }
+        return null;
+    }
+
     public String getValue() {
         return value;
     }

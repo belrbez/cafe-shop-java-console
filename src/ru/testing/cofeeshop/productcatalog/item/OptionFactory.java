@@ -6,6 +6,7 @@ import ru.testing.cofeeshop.domain.entity.Option;
 import ru.testing.cofeeshop.domain.entity.Price;
 import ru.testing.cofeeshop.domain.value.OptionType;
 import ru.testing.cofeeshop.domain.value.ProductCategory;
+import ru.testing.cofeeshop.productcatalog.IdGenerator;
 import ru.testing.cofeeshop.utils.reliability.OperationException;
 import ru.testing.cofeeshop.utils.reliability.OperationResultStatus;
 
@@ -16,6 +17,7 @@ public class OptionFactory extends GenericFactory<Option, OptionType> {
     @Override
     public Option get(OptionType optionType) {
         Option option = new Option();
+        IdGenerator.generateAndSetId(option, numberOfCategory);
         option.setName(String.format("%s %s", optionType.toString(), numberOfCategory));
         option.setType(optionType);
         generateOptionWithPrice(option, optionType);

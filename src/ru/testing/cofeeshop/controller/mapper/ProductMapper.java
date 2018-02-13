@@ -15,6 +15,13 @@ public class ProductMapper {
 
     public static ProductDTO mapProductIntoDTO(Product product, AvailableProduct choosedProduct) {
         ProductDTO productDTO = mapProductIntoDTO(product);
+        List<ProductDTO> addons = new ArrayList<>();
+        if (product.getAddOns() != null) {
+            for (Product product1 : product.getAddOns()) {
+                addons.add(mapProductIntoDTO(product1));
+            }
+            productDTO.setAddOns(addons);
+        }
         productDTO.setAvailableProduct(choosedProduct);
         return productDTO;
     }
@@ -25,6 +32,7 @@ public class ProductMapper {
         productDTO.setTotalCost(product.getPrice().getValue());
         productDTO.setCategory(mapCategoryIntoDto(product.getCategory()));
         productDTO.setName(product.getName());
+        productDTO.setAvailableProduct(AvailableProduct.fromContainsValue(product.getName()));
         return productDTO;
     }
 

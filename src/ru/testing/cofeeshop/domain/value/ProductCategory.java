@@ -18,6 +18,8 @@ public enum ProductCategory {
 
     ESPRESSO_COFFEE,
 
+    ADD_ON,
+
     MILK_ADD_ON,
 
     CREAM,

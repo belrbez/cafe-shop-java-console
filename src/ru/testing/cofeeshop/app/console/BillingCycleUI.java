@@ -10,8 +10,10 @@ import ru.testing.cofeeshop.controller.model.ProductDTO;
 import ru.testing.cofeeshop.controller.model.UserDTO;
 import ru.testing.cofeeshop.domain.entity.Basket;
 import ru.testing.cofeeshop.domain.entity.Order;
+import ru.testing.cofeeshop.domain.value.OptionType;
 import ru.testing.cofeeshop.domain.value.PaymentType;
 import ru.testing.cofeeshop.domain.value.ProductCategory;
+import ru.testing.cofeeshop.domain.value.ProductType;
 import ru.testing.cofeeshop.productcatalog.resource.AvailableProduct;
 import ru.testing.cofeeshop.utils.reliability.OperationException;
 import ru.testing.cofeeshop.utils.reliability.OperationResultStatus;
@@ -47,7 +49,7 @@ public class BillingCycleUI {
     private static void fillBasket(BufferedReader br) throws IOException {
         System.out.print("\nMay be some cup of tea or coffee?\n\n1 - tea\n2 - coffee\n3 - just some add ons\nexit - not interesting\n\nAnswer: ");
         ProductCategory checkedCategory = chooseProductType(br);
-        chooseProductDetails(br, checkedCategory);
+        chooseProductDetails(br, null, checkedCategory, ProductType.BASE);
     }
 
     private static ProductCategory chooseProductType(BufferedReader br) throws IOException {
@@ -59,24 +61,114 @@ public class BillingCycleUI {
                     return ProductCategory.TEA;
                 case "2":
                     return ProductCategory.COFFEE;
+                case "3":
+                    return ProductCategory.ADD_ON;
             }
             isGood = checkIsExit(answer);
         } while (!isGood);
         throw new OperationException(OperationResultStatus.FAILURE_INTERNAL_UNKNOWN, "Can't choose product Type!");
     }
 
-    private static void chooseProductDetails(BufferedReader br, ProductCategory checkedCategory) throws IOException {
+    private static void chooseProductDetails(BufferedReader br, ProductDTO baseProduct, ProductCategory checkedCategory, ProductType productType) throws IOException {
 
         AvailableProduct checkedProduct = chooseAvailableCategoryOfProduct(br, checkedCategory);
 
-        Integer amount = chooseAmountOfProduct(br);
+        Integer amount = chooseAmountOfProduct(br, checkedProduct);
 
-        ProductDTO generatedProduct = ((ProductController) ApplicationContext.getGenericControllerMap().get(ApplicationInstanceType.PRODUCT)).addProductToBasket(checkedProduct, amount);
-//        chooseOptions(generatedProduct);
+        ProductDTO generatedProduct = null;
+        if (productType.equals(ProductType.ADD_ON)) {
+            //response is add-on
+            generatedProduct = ((ProductController) ApplicationContext.getGenericControllerMap().get(ApplicationInstanceType.PRODUCT)).addAddonToProduct(baseProduct.getId(), checkedProduct, amount);
+        } else if (productType.equals(ProductType.BASE)) {
+            generatedProduct = ((ProductController) ApplicationContext.getGenericControllerMap().get(ApplicationInstanceType.PRODUCT)).addProductToBasket(checkedProduct, amount);
+        } else {
+            throw new OperationException(OperationResultStatus.FAILURE_INTERNAL_UNKNOWN, "Unknown product Type to choose product details!");
+        }
+        generatedProduct = chooseOptions(br, generatedProduct);
+        if (baseProduct == null) {
+            baseProduct = generatedProduct;
+        }
+        if (!checkedCategory.equals(ProductCategory.ADD_ON) && !productType.equals(ProductType.ADD_ON)) {
+            chooseAddons(br, baseProduct);
+        }
     }
 
-    private static Integer chooseAmountOfProduct(BufferedReader br) throws IOException {
-        System.out.print("\nHow much amount of this product you need?\n\nAnswer: ");
+    private static ProductDTO chooseOptions(BufferedReader br, ProductDTO generatedProduct) throws IOException {
+        if (generatedProduct.getAvailableProduct().toString().contains(ProductCategory.MILK_ADD_ON.toString())) {
+            System.out.print("\nHow much of this fat number you want (1..10)?\n\nAnswer: ");
+        } else if (generatedProduct.getAvailableProduct().toString().contains(ProductCategory.SWEET_ADD_ON.toString())) {
+            System.out.print("\nHow much of sweetest number you want (1..10)?\n\nAnswer: ");
+        } else if (generatedProduct.getAvailableProduct().toString().contains(ProductCategory.TEA.toString())
+                || generatedProduct.getAvailableProduct().toString().contains(ProductCategory.COFFEE.toString())) {
+            System.out.print("\nWhat volume for this Cup of product you need?\n1 - 200\n2 - 300\n3 - 500\n\nAnswer: ");
+        }
+        boolean isGood = true;
+        do {
+            String answerProductAmount = br.readLine();
+            if (isNumeric(answerProductAmount)) {
+                Integer choosedAmount = Integer.valueOf(answerProductAmount);
+                if (choosedAmount > 0) {
+                    if (generatedProduct.getAvailableProduct().toString().contains(ProductCategory.ADD_ON.toString())) {
+                        if (choosedAmount < 11) {
+                            if (generatedProduct.getAvailableProduct().toString().contains(ProductCategory.MILK_ADD_ON.toString())) {
+                                return createAndSetOption(OptionType.FAT_CONTENT, choosedAmount, generatedProduct.getId());
+                            } else if (generatedProduct.getAvailableProduct().toString().contains(ProductCategory.SWEET_ADD_ON.toString())) {
+                                return createAndSetOption(OptionType.SUGAR_CONTENT, choosedAmount, generatedProduct.getId());
+                            } else {
+                                throw new OperationException(OperationResultStatus.FAILURE_INTERNAL_UNKNOWN, "Can't choose product Available Category!");
+                            }
+                        }
+                    } else if (generatedProduct.getAvailableProduct().toString().contains(ProductCategory.TEA.toString())
+                            || generatedProduct.getAvailableProduct().toString().contains(ProductCategory.COFFEE.toString())) {
+                        switch (choosedAmount) {
+                            case 1:
+                                return createAndSetOption(OptionType.VOLUME, 200, generatedProduct.getId());
+                            case 2:
+                                return createAndSetOption(OptionType.VOLUME, 300, generatedProduct.getId());
+                            case 3:
+                                return createAndSetOption(OptionType.VOLUME, 500, generatedProduct.getId());
+                        }
+                    }
+                }
+            }
+            isGood = checkIsExit(answerProductAmount);
+        } while (!isGood);
+        throw new OperationException(OperationResultStatus.FAILURE_INTERNAL_UNKNOWN, "Can't choose product Option!");
+    }
+
+    private static ProductDTO createAndSetOption(OptionType optionType, Integer choosedAmount, Long productId) {
+        return ((ProductController) ApplicationContext.getGenericControllerMap().get(ApplicationInstanceType.PRODUCT)).addOptionToProduct(optionType, choosedAmount, productId);
+    }
+
+    private static void chooseAddons(BufferedReader br, ProductDTO baseProduct) throws IOException {
+        System.out.print("\nDo you want to add some add-ons\n1 - Yes\n2 - No\n\nAnswer: ");
+        boolean continueAdd = false;
+        do {
+            if (continueAdd) {
+                System.out.print("\nDo you want to add some Another add-on?\n1 - Yes\n2 - No\n\nAnswer: ");
+            }
+            String answer = br.readLine();
+            switch (answer) {
+                case "1":
+                    chooseProductDetails(br, baseProduct, ProductCategory.ADD_ON, ProductType.ADD_ON);
+                    continueAdd = true;
+                    break;
+                case "2":
+                    continueAdd = false;
+                    return;
+                default:
+                    continueAdd = true;
+            }
+        } while (continueAdd);
+        throw new OperationException(OperationResultStatus.FAILURE_INTERNAL_UNKNOWN, "Choose addons error!");
+    }
+
+    private static Integer chooseAmountOfProduct(BufferedReader br, AvailableProduct checkedProduct) throws IOException {
+        if (checkedProduct.toString().contains(ProductCategory.ADD_ON.toString())) {
+            System.out.print("\nWhat amount of this addon you want?\n\nAnswer: ");
+        } else {
+            System.out.print("\nWhat amount of this product you need?\n\nAnswer: ");
+        }
         boolean isGood = true;
         do {
             String answerProductAmount = br.readLine();
@@ -88,7 +180,7 @@ public class BillingCycleUI {
             }
             isGood = checkIsExit(answerProductAmount);
         } while (!isGood);
-        throw new OperationException(OperationResultStatus.FAILURE_INTERNAL_UNKNOWN, "Can't choose product Available Category!");
+        throw new OperationException(OperationResultStatus.FAILURE_INTERNAL_UNKNOWN, "Can't choose this amount to product!");
     }
 
     private static AvailableProduct chooseAvailableCategoryOfProduct(BufferedReader br, ProductCategory checkedCategory) throws IOException {
@@ -176,13 +268,30 @@ public class BillingCycleUI {
         printCheque(basket);
         PaymentType paymentType = getPayment(br);
         Order order = ((OrderController) ApplicationContext.getGenericControllerMap().get(ApplicationInstanceType.ORDER)).processOrder(paymentType);
-        System.out.println(String.format("\nSuccessfully Paid! Order №%d with TotalCost:%d", order.getId(), order.getTotalCost()));
+        System.out.println(String.format("\nSuccessfully Paid! Order №%d with TotalCost: %s", order.getId(), order.getTotalCost().toString()));
     }
 
     private static void printCheque(BasketDTO basket) {
         int i = 0;
         for (BasketItemDTO basketItem : basket.getItemSet()) {
-            System.out.println(String.format("%d: totalcost:%s, amount: %d, product: %s", i, basketItem.getProductDTO().getTotalCost(), basketItem.getAmount(), basketItem.getProductDTO().getName()));
+            System.out.println(String.format("%d: totalcost:%s, amount: %d, product: %s", i + 1, basketItem.getProductDTO().getTotalCost(), basketItem.getAmount(), basketItem.getProductDTO().getName()));
+            if (!basketItem.getProductDTO().getOptionList().isEmpty()) {
+                System.out.println("\t Options: ");
+                for (int i1 = 0; i1 < basketItem.getProductDTO().getOptionList().size(); i1++) {
+                    System.out.println(String.format("\t\t%d: name: %s, value: %s",
+                            basketItem.getProductDTO().getOptionList().get(i1).getName(),
+                            basketItem.getProductDTO().getOptionList().get(i1).getValue().toString()));
+                }
+            }
+            if (!basketItem.getProductDTO().getAddOns().isEmpty()) {
+                System.out.println("\t Options: ");
+                //TODO: distinct by addon product type
+                for (int i1 = 0; i1 < basketItem.getProductDTO().getAddOns().size(); i1++) {
+                    System.out.println(String.format("\t%d: name: %s, cost: %s",
+                            basketItem.getProductDTO().getAddOns().get(i1).getName(),
+                            basketItem.getProductDTO().getAddOns().get(i1).getTotalCost().toString()));
+                }
+            }
             i++;
         }
     }
