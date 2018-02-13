@@ -17,25 +17,12 @@ Also programmed product catalog is available
     
 2. Compile and start console applications with demonstration of billing.
 
-    `cd cofeeshop/src/` 
+    `cd cofeeshop/` 
     
-    `javac cyk.java`
+    `javac src/ru/testing/cofeeshop/CoffeeShopApp.java`
         
 3. Run the program by giving it a grammar|input file of your choosing and supplying
    a string:
    
-   3.1. CYK:
-
-       `java Cyk grammar_hw6.txt word1_hw6.txt`
-
-    Or simple start application to use the default input files ("grammar_hw6.txt" and "word1_hw6.txt").
-
-       `java Cyk`
+   `java CoffeeShopApp`
     
-    3.2. CNF:
-
-       `java Grammar grammar_hw6.txt`
-
-    Or simple start application to use the default input files ("grammar_hw6.txt").
-
-       `java Grammar`

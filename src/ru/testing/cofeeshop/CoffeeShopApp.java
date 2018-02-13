@@ -9,7 +9,7 @@ import ru.testing.cofeeshop.config.value.ApplicationMode;
  *
  * @author Alexander Vasiliev <alexandrvasilievby@gmail.com>
  */
-public class Main {
+public class CoffeeShopApp {
 
     /**
      * The entry point of application.
