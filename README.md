@@ -4,6 +4,10 @@ Allows to fill basket with a products.
 Add addons to the products and set different options.
 Also programmed product catalog is available
 
+Result
+Author name : ALEXANDR VASILEV
+Codeship : [ ![Codeship Status for belrbeZ/coffeeshop](https://app.codeship.com/projects/e7fc25a0-f391-0135-89fa-4e3622f3d72a/status?branch=master)](https://app.codeship.com/projects/272704)
+
 # Running the app
 
 1. Clone the project, cd into the folder and then the src folder then run javac
