@@ -15,14 +15,21 @@ Also programmed product catalog is available
     
     `https://github.com/belrbeZ/cofeeshop.git`
     
-2. Compile and start console applications with demonstration of billing.
+2. Compile console applications with demonstration of billing (may be not right):
 
     `cd cofeeshop/` 
     
-    `javac src/ru/testing/cofeeshop/CoffeeShopApp.java`
+    `javac -d .\out -sourcepath ru/*.java:ru.testing/*.java:ru.testing.cofeeshop/*.java:ru.testing.cofeeshop/*.java:ru.testing.cofeeshop.app/*.java:ru.testing.cofeeshop.config/*.java:ru.testing.cofeeshop.controller/*.java:ru.testing.cofeeshop.domain/*.java:ru.testing.cofeeshop.productcatalog/*.java:ru.testing.cofeeshop.utils/*.java`
         
 3. Run the program by giving it a grammar|input file of your choosing and supplying
    a string:
    
    `java CoffeeShopApp`
     
+4. Make an executable jar file:
+
+    `jar cf coffeeshop.jar CoffeeShopApp.class`
+    
+5. Execute jar file
+
+    `java -jar coffeeshop.jar`
